@@ -8,14 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -30,9 +31,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.superheroapp.model.Hero
 import com.example.superheroapp.model.HeroesRepository.heroes
+import com.example.superheroapp.ui.theme.SuperHeroAppTheme
 
 @Composable
 fun SuperHeroesApp() {
@@ -73,16 +76,19 @@ fun HeroItem(
     modifier: Modifier = Modifier
         .fillMaxWidth()
         .height(72.dp)
-    /* .wrapContentWidth()*/
 ) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
         modifier = modifier
-            .padding(16.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .wrapContentWidth()
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 8.dp,
+                bottom = 8.dp
+            )
+            .clip(MaterialTheme.shapes.medium)
     ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -91,14 +97,14 @@ fun HeroItem(
         ) {
             HeroInformation(
                 heroName = hero.nameRes,
-                heroDescription = hero.descriptionRes
+                heroDescription = hero.descriptionRes,
+                modifier = modifier.weight(3f)
             )
-            Spacer(modifier = Modifier.weight(1f))
-
 
             HeroImage(
                 heroImage = hero.imageRes,
-                heroDescription = hero.descriptionRes
+                heroDescription = hero.descriptionRes,
+                modifier = modifier.weight(1f)
             )
         }
 
@@ -121,7 +127,7 @@ fun HeroInformation(
             )
         Text(
             text = stringResource(heroDescription),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
         )
     }
 
@@ -139,7 +145,7 @@ fun HeroImage(
             .padding(16.dp)
             .height(72.dp)
             .width(72.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(MaterialTheme.shapes.small)
     ){
         Image(
             modifier = modifier,
@@ -148,5 +154,13 @@ fun HeroImage(
             contentDescription = stringResource(heroDescription)
 
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HeroPreview() {
+    SuperHeroAppTheme {
+        SuperHeroesApp()
     }
 }
